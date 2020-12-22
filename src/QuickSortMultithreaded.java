@@ -1,12 +1,12 @@
 
-public class MergeSortMultithreaded {
+public class QuickSortMultithreaded {
     public static int[] sort(int[] sorted){
         int[] list1 = new int[sorted.length/2];
         int[] list2 = new int[sorted.length - sorted.length/2];
         System.arraycopy(sorted, 0, list1,0,(sorted.length/2));
         System.arraycopy(sorted, sorted.length/2, list2,0,(sorted.length - sorted.length/2));
-        mergeWorker work1 = new mergeWorker(list1);
-        mergeWorker work2 = new mergeWorker(list2);
+        Worker work1 = new Worker(list1);
+        Worker work2 = new Worker(list2);
         Thread worker1 = new Thread(work1);
         Thread worker2 = new Thread(work2);
         try {
@@ -19,14 +19,14 @@ public class MergeSortMultithreaded {
         }
         return merge(work1.getArray(), work2.getArray());
     }
-    private static class mergeWorker implements Runnable{
+    private static class Worker implements Runnable{
         private int[] array;
         public int[] getArray() {return array;}
-        public mergeWorker(int[] array){
+        public Worker(int[] array){
             this.array=array;
         }
         public void run(){
-            MergeSort.sort(this.array);
+            QuickSort.sort(this.array);
         }
     }
     public static int[] merge(int[] first, int[] second) {
